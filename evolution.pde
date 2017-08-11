@@ -1,16 +1,14 @@
 Population my_population;
 Simulation[] simulations;
 
-int population_size = 500;
-
-float simulation_time = 1000; // [ms]
+float simulation_time = 3000; // [ms]
 float last_selection_time;
 
 void setup() {
-  size(displayWidth,displayHeight);
+  size(1280,900);
   
-  my_population = new Population(population_size, 2);
-  simulations = new Simulation[population_size];
+  my_population = new Population(500, 3);
+  simulations = new Simulation[my_population.chromosomes.length];
   
   // chromosomes initialized randomly
   for(int simulation_index=0; simulation_index<simulations.length; simulation_index++){
@@ -24,14 +22,28 @@ void setup() {
 void draw() {
   background(0);
   
+  // Display generation
+  fill(255);
+  textSize(24);
+  textAlign(LEFT,UP);
+  text("Generation: " + my_population.generation,25,50);
+  
   // simulation and display
   for(int chromosome_index=0; chromosome_index<my_population.chromosomes.length; chromosome_index++){
   
     simulations[chromosome_index].simulate(my_population.chromosomes[chromosome_index].genes);
-    simulations[chromosome_index].display(map(chromosome_index,-1,my_population.chromosomes.length,0,width));
+    simulations[chromosome_index].display(map(chromosome_index,-1,my_population.chromosomes.length,0,width), width/(my_population.chromosomes.length+1));
 
-    // Fitness function
-    my_population.chromosomes[chromosome_index].fitness += -abs(simulations[chromosome_index].target-simulations[chromosome_index].altitude);
+    // Fitness function: Get as close as possible to the line but try not to overshoot
+    
+    if(simulations[chromosome_index].error < 0) {
+      my_population.chromosomes[chromosome_index].fitness += -abs(simulations[chromosome_index].error);
+    }
+    else
+    {
+      my_population.chromosomes[chromosome_index].fitness += -abs(simulations[chromosome_index].error);
+    }
+    
   }
   
   if(millis() - last_selection_time > simulation_time){
@@ -44,14 +56,4 @@ void draw() {
       simulations[chromosome_index] = new Simulation();
     }
   }
-  
-  fill(255);
-  textSize(24);
-  textAlign(LEFT,UP);
-  text("Generation: " + my_population.generation,25,50);
-  
-  stroke(255);
-  strokeWeight(1);
-  line(0,height/2,width,height/2);
-  
 }

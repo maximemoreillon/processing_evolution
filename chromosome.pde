@@ -3,7 +3,8 @@ class Chromosome{
   boolean alive;
   float[] genes;
   float fitness;
-  float mutation_factor = 1;
+  float mutation_factor = 10;
+  float initial_variance = 1000;
   
   Chromosome(int gene_count){
     // Constructor
@@ -12,7 +13,7 @@ class Chromosome{
     
     // Genes initialized randomly
     for(int gene_index=0; gene_index<genes.length; gene_index++){
-      genes[gene_index] = random(-10, 10);
+      genes[gene_index] = random(-initial_variance, initial_variance);
     }
     
     alive = true;

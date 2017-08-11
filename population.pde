@@ -3,7 +3,6 @@ class Population {
   Chromosome[] chromosomes;
   float min_fitness, max_fitness, mean_fitness;
   int death_toll, generation;
-  int parent_count = 1; // The number of parents needed to breed
   
   Population(int chromosome_count, int chromosome_gene_count) {
     // Constructor
@@ -67,14 +66,15 @@ class Population {
   
   void offspring_of_the_fittest() {
     // Replacing dead chromosomes with offspring of the survivors
-    if(death_toll <= chromosomes.length - parent_count) {
+    if(death_toll < chromosomes.length) {
       // Otherwise, the survivors reproduce: dead creatures get replaced with the offspring of random survivors
       for(int chromosome_index = 0; chromosome_index < chromosomes.length; chromosome_index ++) {
         if(!chromosomes[chromosome_index].alive) {
-
+          
           Chromosome potential_parent;
+          
+          // keep looking for a parent if the selected one is dead or has been selected already
           do {
-            // keep looking for a parent if the selected one is dead or has been selected already
             int potential_parent_index = round(random(0,chromosomes.length-1));
             potential_parent = chromosomes[potential_parent_index];
           }

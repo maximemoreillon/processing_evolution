@@ -1,3 +1,3 @@
 # processing_evolution
 
-Evolution algorithm on processing
+Processing sketch implementing an evolutionary strategy to tune a PID controller. The algorithm does not use crossover.
