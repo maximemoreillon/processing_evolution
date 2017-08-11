@@ -37,7 +37,7 @@ void draw() {
     // Fitness function: Get as close as possible to the line but try not to overshoot
     
     if(simulations[chromosome_index].error < 0) {
-      my_population.chromosomes[chromosome_index].fitness += -abs(simulations[chromosome_index].error);
+      my_population.chromosomes[chromosome_index].fitness += -10*abs(simulations[chromosome_index].error);
     }
     else
     {
